@@ -1,0 +1,5 @@
+{
+	"variants": {
+		"": { "model": "caravans:block/market_block" }
+	}
+}

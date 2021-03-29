@@ -1,0 +1,31 @@
+modLoader="javafml" 
+loaderVersion="[34,)" 
+license="All rights reserved"
+issueTrackerURL="http://my.issue.tracker/" 
+[[mods]] 
+modId="caravans"
+version="1.0" 
+displayName="Caravans"
+updateJSONURL="http://myurl.me/" 
+displayURL="http://example.com/" 
+logoFile="examplemod.png" 
+credits="In memory to my mom who died way too early." 
+authors="Titmar" 
+description='''
+
+Adds 
+
+'''
+[[dependencies.caravans]] 
+    modId="forge" 
+    mandatory=true 
+    versionRange="[34,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.caravans]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.3,)"
+    ordering="NONE"
+    side="BOTH"
