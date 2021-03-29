@@ -25,8 +25,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 		this.xSize = 175;
 		this.ySize = 201;
 	}
-	
-	
+
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(matrixStack);
@@ -42,7 +41,8 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX,
+			int mouseY) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		this.minecraft.textureManager.bindTexture(MARKET_GUI);
 		int x = (this.width - this.xSize) / 2;

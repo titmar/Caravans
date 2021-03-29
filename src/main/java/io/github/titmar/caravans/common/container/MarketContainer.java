@@ -16,23 +16,22 @@ public class MarketContainer extends Container {
 
 	public final MarketTileEntity te;
 	private final IWorldPosCallable canInteractWithCallable;
-	
+
 	public MarketContainer(final int windowId, final PlayerInventory playerInv, final MarketTileEntity te) {
 		super(ContainerTypesInit.MARKET_CONTAINER_TYPE.get(), windowId);
 		this.te = te;
 		this.canInteractWithCallable = IWorldPosCallable.of(te.getWorld(), te.getPos());
 	}
-	
+
 	public MarketContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {
 		this(windowId, playerInv, getTileEntity(playerInv, data));
 	}
-	
-	
+
 	private static MarketTileEntity getTileEntity(final PlayerInventory playerInv, final PacketBuffer data) {
 		Objects.requireNonNull(playerInv, "Player Inventory cannot be null");
 		Objects.requireNonNull(data, "Data cannot be null");
 		final TileEntity te = playerInv.player.world.getTileEntity(data.readBlockPos());
-		if(te instanceof MarketTileEntity) {
+		if (te instanceof MarketTileEntity) {
 			return (MarketTileEntity) te;
 		}
 		throw new IllegalStateException("Tile Entity is not correct!");

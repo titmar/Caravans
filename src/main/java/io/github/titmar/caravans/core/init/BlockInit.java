@@ -19,7 +19,4 @@ public class BlockInit {
 
 	public static final RegistryObject<MarketBlock> MARKET_BLOCK = BLOCKS.register("market_block", MarketBlock::new);
 
-	
-	
-	
 }

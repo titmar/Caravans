@@ -19,57 +19,50 @@ public class MarketTileEntity extends LockableLootTileEntity {
 	public MarketTileEntity(TileEntityType<?> tileEntityTypeIn) {
 		super(tileEntityTypeIn);
 	}
-	
-	
+
 	public MarketTileEntity() {
 		this(TileEntityInit.MARKET_TILE_ENTITY_TYPE.get());
 	}
-
 
 	@Override
 	public int getSizeInventory() {
 		return 0;
 	}
 
-
 	@Override
 	protected NonNullList<ItemStack> getItems() {
 		return NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
 	}
 
-
 	@Override
 	protected void setItems(NonNullList<ItemStack> itemsIn) {
-		
-	}
 
+	}
 
 	@Override
 	protected ITextComponent getDefaultName() {
 		return new TranslationTextComponent("container." + Caravans.MOD_ID + "market");
 	}
 
-
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
 		return new MarketContainer(id, player, this);
 	}
 
-
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		if(!this.checkLootAndRead(compound)) {
-			//TODO: save data
+		if (!this.checkLootAndRead(compound)) {
+			// TODO: save data
 		}
 		return compound;
 	}
-	
+
 	@Override
 	public void read(BlockState state, CompoundNBT nbt) {
 		super.read(state, nbt);
-		if(this.checkLootAndRead(nbt)) {
-			//TODO: load data
+		if (this.checkLootAndRead(nbt)) {
+			// TODO: load data
 		}
 	}
 }
