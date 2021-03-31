@@ -1,6 +1,7 @@
 package io.github.titmar.caravans.core.init;
 
 import io.github.titmar.caravans.Caravans;
+import io.github.titmar.caravans.common.item.Label;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -15,6 +16,11 @@ public class ItemInit {
 	public static void init() {
 		ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
+	
+	
+	//Items
+	public static final RegistryObject<Item> LABEL_ITEM = ITEMS.register("label", Label::new);
+	
 
 	// BlockItems
 	public static final RegistryObject<BlockItem> MARKET_BLOCK = ITEMS.register("market_block",

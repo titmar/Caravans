@@ -1,0 +1,20 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" p ",
+		"pgp",
+		" p "	
+	],
+	"key": {
+		"p": {
+			"item": "minecraft:paper"
+		},
+		"g": {
+			"item": "minecraft:gold_ingot"
+		}
+	},
+	"result": {
+		"item": "caravans:label",
+		"count": 2
+	}
+}

@@ -1,12 +1,12 @@
 package io.github.titmar.caravans.common.block;
 
+import io.github.titmar.caravans.Caravans;
 import io.github.titmar.caravans.common.tile.MarketTileEntity;
 import io.github.titmar.caravans.core.init.TileEntityInit;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -14,10 +14,10 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 public class MarketBlock extends Block {
@@ -44,12 +44,10 @@ public class MarketBlock extends Block {
 		if (worldIn.isRemote) {
 			return ActionResultType.SUCCESS;
 		} else {
-			if (Screen.hasShiftDown()) {
-				player.sendStatusMessage(new StringTextComponent("opening"), false);
-			}
 			TileEntity te = worldIn.getTileEntity(pos);
 			if (te instanceof MarketTileEntity) {
-				NetworkHooks.openGui((ServerPlayerEntity) player, (MarketTileEntity) te, pos);
+				Caravans.LOGGER.debug(((MarketTileEntity)te).getUpdateTag().getList("containerArray", Constants.NBT.TAG_COMPOUND));
+				//NetworkHooks.openGui((ServerPlayerEntity) player, (MarketTileEntity) te, pos);
 			}
 		}
 		return ActionResultType.CONSUME;

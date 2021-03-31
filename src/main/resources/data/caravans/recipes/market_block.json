@@ -1,0 +1,23 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" l ",
+		"ccc",
+		"ppp"	
+	],
+	"key": {
+		"c": {
+			"item": "minecraft:red_carpet"
+		},
+		"p": {
+			"item": "minecraft:block/planks"
+		},
+		"l": {
+			"item": "caravans:label"
+		}
+	},
+	"result": {
+		"item": "caravans:market_block",
+		"count": 1
+	}
+}
