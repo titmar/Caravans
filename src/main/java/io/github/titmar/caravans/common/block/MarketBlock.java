@@ -1,6 +1,5 @@
 package io.github.titmar.caravans.common.block;
 
-import io.github.titmar.caravans.Caravans;
 import io.github.titmar.caravans.common.tile.MarketTileEntity;
 import io.github.titmar.caravans.core.init.TileEntityInit;
 import net.minecraft.block.Block;
@@ -17,7 +16,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 public class MarketBlock extends Block {
@@ -46,8 +44,7 @@ public class MarketBlock extends Block {
 		} else {
 			TileEntity te = worldIn.getTileEntity(pos);
 			if (te instanceof MarketTileEntity) {
-				Caravans.LOGGER.debug(((MarketTileEntity)te).getUpdateTag().getList("containerArray", Constants.NBT.TAG_COMPOUND));
-				//NetworkHooks.openGui((ServerPlayerEntity) player, (MarketTileEntity) te, pos);
+				NetworkHooks.openGui((ServerPlayerEntity) player, (MarketTileEntity) te, pos);
 			}
 		}
 		return ActionResultType.CONSUME;

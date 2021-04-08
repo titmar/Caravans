@@ -3,7 +3,6 @@ package io.github.titmar.caravans.core.util;
 import java.util.ArrayList;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
 
 public class NBTHelper {

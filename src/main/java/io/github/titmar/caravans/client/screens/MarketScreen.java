@@ -1,14 +1,19 @@
 package io.github.titmar.caravans.client.screens;
 
+import java.util.HashSet;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import io.github.titmar.caravans.Caravans;
 import io.github.titmar.caravans.common.container.MarketContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -22,8 +27,16 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
 		this.guiLeft = 0;
 		this.guiTop = 0;
-		this.xSize = 175;
-		this.ySize = 201;
+		this.xSize = 276;
+		this.ySize = 226;
+		this.titleX = 7;
+		this.titleY = 6;
+	}
+
+	@Override
+	protected void init() {
+		super.init();
+		this.addButtons();
 	}
 
 	@Override
@@ -35,8 +48,8 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-		this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), (float) this.playerInventoryTitleX,
-				(float) this.playerInventoryTitleY, 4210752);
+		this.font.func_243248_b(matrixStack, this.container.te.getDisplayName(), (float) this.titleX,
+				(float) this.titleY, 4210752);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -47,7 +60,19 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 		this.minecraft.textureManager.bindTexture(MARKET_GUI);
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
-		this.blit(matrixStack, x, y, 0, 0, this.xSize, this.ySize);
+		blit(matrixStack, x, y, this.getBlitOffset(), 0.0F, 0.0F, this.xSize, this.ySize, 256, 512);
+	}
+
+	private void addButtons() {
+		HashSet<BlockPos> list = container.te.getContainers();
+		int buttonX = ((this.width - this.xSize) / 2) + 5;
+		int buttonY = ((this.height - this.ySize) / 2) + 18;
+		for (BlockPos pos : list) {
+			this.addButton(new Button(buttonX, buttonY, 89, 20, StringTextComponent.EMPTY, (b) -> {
+				System.out.println(pos);
+			}));
+			buttonY += 20;
+		}
 	}
 
 }

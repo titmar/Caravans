@@ -58,29 +58,41 @@ public class Label extends Item {
 			ItemStack stack = context.getPlayer().getHeldItem(context.getHand());
 
 			if (te instanceof MarketTileEntity) {
-				int use = this.useOnMarket(stack, te);
-				if (use == 1) {
+				switch(this.useOnMarket(stack, te)) {
+				case 0:
+					context.getPlayer().sendStatusMessage(
+							new StringTextComponent("Added information"), true);
+				case 1:
 					context.getPlayer().sendStatusMessage(new StringTextComponent(
 							"Registered Market Block at x: " + pos.getX() + " y: " + pos.getY() + " z: " + pos.getZ()),
 							true);
 					stack.shrink(1);
 					return ActionResultType.CONSUME;
-				}
-				if (use == 2) {
-					context.getPlayer().sendStatusMessage(new StringTextComponent("Max containers reached ore container already registered"), true);
+				case 2: 
+					context.getPlayer().sendStatusMessage(
+							new StringTextComponent("Max containers reached"), true);
+				case 3:
+					context.getPlayer().sendStatusMessage(
+							new StringTextComponent("Container already registered"), true);
 				}
 
 			}
 			if (te instanceof ChestTileEntity || te instanceof BarrelTileEntity) {
-				int use = this.useOnContainer(stack, te);
-				if (use == 1) {
+				switch(this.useOnContainer(stack, te)) {
+				case 0:
+					context.getPlayer().sendStatusMessage(
+							new StringTextComponent("Added information"), true);
+				case 1:
 					context.getPlayer().sendStatusMessage(new StringTextComponent("Registered Container Block at x: "
 							+ pos.getX() + " y: " + pos.getY() + " z: " + pos.getZ()), true);
 					stack.shrink(1);
 					return ActionResultType.CONSUME;
-				}
-				if (use == 2) {
-					context.getPlayer().sendStatusMessage(new StringTextComponent("Max containers reached or container already registered"), true);
+				case 2: 
+					context.getPlayer().sendStatusMessage(
+							new StringTextComponent("Max containers reached"), true);
+				case 3:
+					context.getPlayer().sendStatusMessage(
+							new StringTextComponent("Container already registered"), true);
 				}
 			}
 
@@ -89,6 +101,10 @@ public class Label extends Item {
 		return ActionResultType.SUCCESS;
 	}
 
+	/*
+	 * return 0 - information added, return 1 - registered block successfully,
+	 * return 2 - limit reached, return 3 - already registered
+	 */
 	private int useOnMarket(ItemStack stack, TileEntity tile) {
 		CompoundNBT nbt = stack.getTag() != null ? stack.getTag() : new CompoundNBT();
 		BlockPos pos = tile.getPos();
@@ -106,14 +122,21 @@ public class Label extends Item {
 			nbt.putBoolean("marketInit", false);
 			nbt.putBoolean("containerInit", false);
 			stack.setTag(nbt);
-			return ((MarketTileEntity) tile).registerContainer(pos) ? 1 : 2;
+			switch (((MarketTileEntity) tile).registerContainer(pos)) {
+			case 0:
+				return 2;
+			case 1:
+				return 1;
+			default:
+				return 3;
+			}
 		}
 
 	}
 
 	/*
-	 * return 0 - information added return 1 - registered block successfully return
-	 * 2 - block could not be registered
+	 * return 0 - information added, return 1 - registered block successfully,
+	 * return 2 - limit reached, return 3 - already registered
 	 */
 	private int useOnContainer(ItemStack stack, TileEntity tile) {
 		CompoundNBT nbt = stack.getTag() != null ? stack.getTag() : new CompoundNBT();
@@ -132,7 +155,14 @@ public class Label extends Item {
 			nbt.putBoolean("marketInit", false);
 			nbt.putBoolean("containerInit", false);
 			stack.setTag(nbt);
-			return ((MarketTileEntity) tile.getWorld().getTileEntity(pos)).registerContainer(tile.getPos()) ? 1 : 2;
+			switch (((MarketTileEntity) tile.getWorld().getTileEntity(pos)).registerContainer(tile.getPos())) {
+			case 0:
+				return 2;
+			case 1:
+				return 1;
+			default:
+				return 3;
+			}
 		}
 	}
 
