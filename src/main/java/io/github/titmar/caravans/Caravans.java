@@ -7,6 +7,7 @@ import io.github.titmar.caravans.core.init.BlockInit;
 import io.github.titmar.caravans.core.init.ContainerTypesInit;
 import io.github.titmar.caravans.core.init.ItemInit;
 import io.github.titmar.caravans.core.init.TileEntityInit;
+import io.github.titmar.caravans.core.network.CaravansNetwork;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -28,7 +29,7 @@ public class Caravans {
 	};
 
 	public Caravans() {
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
 		MinecraftForge.EVENT_BUS.register(this);
 
 		BlockInit.init();
@@ -37,7 +38,7 @@ public class Caravans {
 		ContainerTypesInit.init();
 	}
 
-	private void setup(final FMLCommonSetupEvent event) {
-
+	private void commonSetup(final FMLCommonSetupEvent event) {
+		CaravansNetwork.init();
 	}
 }

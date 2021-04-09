@@ -5,6 +5,8 @@ import java.util.HashSet;
 import io.github.titmar.caravans.Caravans;
 import io.github.titmar.caravans.common.container.MarketContainer;
 import io.github.titmar.caravans.core.init.TileEntityInit;
+import io.github.titmar.caravans.core.network.CaravansNetwork;
+import io.github.titmar.caravans.core.network.message.UpdateMarketMessage;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -90,8 +92,10 @@ public class MarketTileEntity extends LockableLootTileEntity {
 		return this.write(super.getUpdateTag());
 	}
 
-	/*
-	 * Add a container
+	/**
+	 * 
+	 * @param pos The position of the container to register
+	 * @return 0 - list is full, 1 - position added, 2 - position already registered
 	 */
 	public int registerContainer(BlockPos pos) {
 		this.validateContainers();
@@ -107,14 +111,21 @@ public class MarketTileEntity extends LockableLootTileEntity {
 	}
 
 	/*
-	 * Returns the list of registered containers
+	 * Returns the list of registered containers after validating them
 	 */
 	public HashSet<BlockPos> getContainers() {
 		this.validateContainers();
 		return this.containers;
 	}
 
-	private void validateContainers() {
+	/*
+	 * checks if the list of containers is up-to-date and syncs it
+	 */
+	public void validateContainers() {
+		if(world.isRemote) {
+			//sync server with client when opening gui
+			CaravansNetwork.CHANNEL.sendToServer(new UpdateMarketMessage(this.getUpdateTag(), pos));
+		}
 		if (this.containers.removeIf((pos) -> (this.world.getTileEntity(pos) == null)
 				&& !(this.world.getTileEntity(pos) instanceof ChestTileEntity)
 				&& !(this.world.getTileEntity(pos) instanceof BarrelTileEntity))) {
