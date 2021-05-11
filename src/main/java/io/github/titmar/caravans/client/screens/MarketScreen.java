@@ -81,6 +81,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 	}
 
 	private void changeInventory(BlockPos pos) {
+		this.container.setActiveInventory(pos);
 		CaravansNetwork.CHANNEL.sendToServer(new ChangeActiveInventoryMessage(pos));
 	}
 

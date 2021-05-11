@@ -55,7 +55,6 @@ public class MarketContainer extends Container {
 	}
 
 	
-	//TODO: Fix bug when instantiated with single chest and switching back and forth
 	public void setActiveInventory(BlockPos pos) {
 		TileEntity t = this.te.getWorld().getTileEntity(pos);
 		if (t == null || !(t instanceof LockableLootTileEntity) || pos.equals(this.activeContainer)) {
@@ -80,8 +79,8 @@ public class MarketContainer extends Container {
 			}
 			this.activeContainer = pos;
 		}
-		
 	}
+	
 
 	private class LockedSlot extends SlotItemHandler {
 

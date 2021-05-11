@@ -31,6 +31,7 @@ public class ChangeActiveInventoryMessage {
 			if(player.openContainer instanceof MarketContainer) {
 				
 				((MarketContainer)player.openContainer).setActiveInventory(message.pos);
+				player.sendContainerToPlayer(player.openContainer);
 			}
 		});
 		context.setPacketHandled(true);
