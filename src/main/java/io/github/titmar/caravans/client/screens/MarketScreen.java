@@ -7,9 +7,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import io.github.titmar.caravans.Caravans;
 import io.github.titmar.caravans.common.container.MarketContainer;
+import io.github.titmar.caravans.core.network.CaravansNetwork;
+import io.github.titmar.caravans.core.network.message.ChangeActiveInventoryMessage;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -49,7 +53,8 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 	@Override
 	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
 		this.font.func_243248_b(matrixStack, this.container.te.getDisplayName(), (float) this.titleX,
-				(float) this.titleY, 4210752);
+				(float) this.titleY, 4210752); // title
+		renderButtonInfo(matrixStack);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -69,10 +74,29 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 		int buttonY = ((this.height - this.ySize) / 2) + 18;
 		for (BlockPos pos : list) {
 			this.addButton(new Button(buttonX, buttonY, 89, 20, StringTextComponent.EMPTY, (b) -> {
-				System.out.println(pos);
+				this.changeInventory(pos);
 			}));
 			buttonY += 20;
 		}
 	}
+
+	private void changeInventory(BlockPos pos) {
+		CaravansNetwork.CHANNEL.sendToServer(new ChangeActiveInventoryMessage(pos));
+	}
+
+	private void renderButtonInfo(MatrixStack matrixStack) {
+		int iconX = 7;
+		int iconY = 20;
+		for (BlockPos pos : container.te.getContainers()) {
+			LockableLootTileEntity te = (LockableLootTileEntity) container.te.getWorld().getTileEntity(pos);
+			ItemStack item = new ItemStack(te.getBlockState().getBlock().asItem());
+			this.itemRenderer.renderItemIntoGUI(item, iconX, iconY);
+			this.itemRenderer.renderItemOverlays(font, item, iconX, iconY);
+			this.font.func_243248_b(matrixStack, te.getDisplayName(), iconX + 16 + 3, iconY + 4, 4210752);
+			iconY += 20;
+		}
+	}
+
+
 
 }

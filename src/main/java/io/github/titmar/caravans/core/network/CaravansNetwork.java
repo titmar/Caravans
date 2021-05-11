@@ -1,7 +1,8 @@
 package io.github.titmar.caravans.core.network;
 
 import io.github.titmar.caravans.Caravans;
-import io.github.titmar.caravans.core.network.message.UpdateMarketMessage;
+import io.github.titmar.caravans.core.network.message.ChangeActiveInventoryMessage;
+import io.github.titmar.caravans.core.network.message.UpdateMarketContainerListMessage;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -15,7 +16,9 @@ public class CaravansNetwork {
 	
 	
 	public static void init() {
-		CHANNEL.registerMessage(0, UpdateMarketMessage.class, UpdateMarketMessage::encode, UpdateMarketMessage::decode, UpdateMarketMessage::handle);
+		int id = 0;
+		CHANNEL.registerMessage(id++, UpdateMarketContainerListMessage.class, UpdateMarketContainerListMessage::encode, UpdateMarketContainerListMessage::decode, UpdateMarketContainerListMessage::handle);
+		CHANNEL.registerMessage(id++, ChangeActiveInventoryMessage.class, ChangeActiveInventoryMessage::encode, ChangeActiveInventoryMessage::decode, ChangeActiveInventoryMessage::handle);
 	}
 
 }

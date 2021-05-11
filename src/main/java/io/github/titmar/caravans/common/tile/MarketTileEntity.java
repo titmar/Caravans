@@ -6,7 +6,8 @@ import io.github.titmar.caravans.Caravans;
 import io.github.titmar.caravans.common.container.MarketContainer;
 import io.github.titmar.caravans.core.init.TileEntityInit;
 import io.github.titmar.caravans.core.network.CaravansNetwork;
-import io.github.titmar.caravans.core.network.message.UpdateMarketMessage;
+import io.github.titmar.caravans.core.network.message.UpdateMarketContainerListMessage;
+import io.github.titmar.caravans.core.util.VanillaChestHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -102,11 +103,15 @@ public class MarketTileEntity extends LockableLootTileEntity {
 		if (containers.size() == this.maxContainers) {
 			return 0;
 		}
+		BlockPos secondChest = VanillaChestHelper.isGetDoubleChest(world, pos);
+		if(containers.contains(secondChest)) {
+			return 2;
+		}
 		if (containers.add(pos)) {
 			this.world.notifyBlockUpdate(this.pos, getBlockState(), getBlockState(), 2);
 			this.markDirty();
 			return 1;
-		}
+		} 
 		return 2;
 	}
 
@@ -124,7 +129,7 @@ public class MarketTileEntity extends LockableLootTileEntity {
 	public void validateContainers() {
 		if(world.isRemote) {
 			//sync server with client when opening gui
-			CaravansNetwork.CHANNEL.sendToServer(new UpdateMarketMessage(this.getUpdateTag(), pos));
+			CaravansNetwork.CHANNEL.sendToServer(new UpdateMarketContainerListMessage(pos));
 		}
 		if (this.containers.removeIf((pos) -> (this.world.getTileEntity(pos) == null)
 				&& !(this.world.getTileEntity(pos) instanceof ChestTileEntity)
@@ -133,6 +138,9 @@ public class MarketTileEntity extends LockableLootTileEntity {
 			this.world.notifyBlockUpdate(this.pos, getBlockState(), getBlockState(), 2);
 		}
 		
+	}
+	
+	public void setActiveInventory(BlockPos pos) {
 	}
 	
 	@Override

@@ -36,6 +36,7 @@ public class MarketBlock extends Block {
 		return TileEntityInit.MARKET_TILE_ENTITY_TYPE.get().create();
 	}
 
+	
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult hit) {
@@ -50,4 +51,5 @@ public class MarketBlock extends Block {
 		return ActionResultType.CONSUME;
 	}
 
+	
 }
